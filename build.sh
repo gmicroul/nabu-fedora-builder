@@ -6,7 +6,7 @@ mkosi_rootfs='mkosi.rootfs'
 image_dir='images'
 image_mnt='mnt_image'
 date=$(date +%Y%m%d)
-image_name=nabu-fedora-${date}-1
+image_name=fajita-fedora-${date}-1
 
 # this has to match the volume_id in installer_data.json
 ROOTFS_UUID=$(uuidgen)
@@ -24,12 +24,12 @@ mkosi_create_rootfs() {
     rm -rf .mkosi*
     mkosi
     # not sure how/why this directory is being created by mkosi
-    rm -rf $mkosi_rootfs/root/nabu-fedora-builder
+    rm -rf $mkosi_rootfs/root/fajita-fedora-builder
 }
 
 mount_image() {
     # get last modified image
-    image_path=$(find $image_dir -maxdepth 1 -type d | grep -E "/nabu-fedora-[0-9]{8}-[0-9]" | sort | tail -1)
+    image_path=$(find $image_dir -maxdepth 1 -type d | grep -E "/fajita-fedora-[0-9]{8}-[0-9]" | sort | tail -1)
 
     [[ -z $image_path ]] && echo -n "image not found in $image_dir\nexiting..." && exit
 
@@ -92,7 +92,7 @@ make_image() {
 
     ###### create rootfs filesystem on root.img ######
     echo '### Creating rootfs ext4 filesystem on root.img '
-    mkfs.ext4 -U "$ROOTFS_UUID" -L 'fedora_nabu' "$image_dir/$image_name/root.img"
+    mkfs.ext4 -U "$ROOTFS_UUID" -L 'fedora_fajita' "$image_dir/$image_name/root.img"
 
     echo '### Loop mounting root.img'
     mount -o loop "$image_dir/$image_name/root.img" "$image_mnt"
